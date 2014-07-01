@@ -1,8 +1,14 @@
-var express = require('express');
-var app = express();
+var WebSocketServer = require('ws').Server
+  , http = require('http')
+  , express = require('express')
+  , app = express()
+  , port = process.env.PORT || 3000;
 
-var server = require('http').Server(app);
-var io = require('socket.io')(server);
+app.use(express.static(__dirname + '/'));
+
+var server = http.createServer(app);
+server.listen(port);
+//var WebSocketServer = require('ws').Server
 
 /*var Datastore = require('nedb')
   , db = new Datastore({ filename: 'db/db.db', autoload: true });
@@ -11,9 +17,23 @@ db = {};
 db.users = new Datastore('db/users.db');
 db.users.loadDatabase();*/
 
-app.set('port', process.env.PORT || 8080);
+console.log('http server listening on %d', port);
 
-io.on('connection', function (socket) {
+var wss = new WebSocketServer({server: server});
+console.log('websocket server created');
+wss.on('connection', function(ws) {
+    var id = setInterval(function() {
+        ws.send(JSON.stringify(new Date()), function() {  });
+    }, 1000);
+
+    console.log('websocket connection open');
+
+    ws.on('close', function() {
+        console.log('websocket connection close');
+        clearInterval(id);
+    });
+});
+
 
 	app.get('/yohook/', function(req, res){
 		var username = req.query.username;
@@ -41,8 +61,3 @@ io.on('connection', function (socket) {
 	});
 	
 
-});
-
-server.listen(app.get('port'), function(){
-  console.log("Express server listening on port " + app.get('port'));
-});
