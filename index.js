@@ -2,7 +2,7 @@ var express = require('express');
 var app = express();
 
 var server = require('http').Server(app);
-//var io = require('socket.io')(server);
+var io = require('socket.io')(server);
 
 /*var Datastore = require('nedb')
   , db = new Datastore({ filename: 'db/db.db', autoload: true });
@@ -13,7 +13,7 @@ db.users.loadDatabase();*/
 
 app.set('port', process.env.PORT || 8080);
 
-//io.on('connection', function (socket) {
+io.on('connection', function (socket) {
 
 	app.get('/yohook/', function(req, res){
 		var username = req.query.username;
@@ -41,7 +41,7 @@ app.set('port', process.env.PORT || 8080);
 	});
 	
 
-//});
+});
 
 server.listen(app.get('port'), function(){
   console.log("Express server listening on port " + app.get('port'));
