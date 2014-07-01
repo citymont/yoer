@@ -4,12 +4,12 @@ var app = express();
 var server = require('http').Server(app);
 var io = require('socket.io')(server);
 
-var Datastore = require('nedb')
+/*var Datastore = require('nedb')
   , db = new Datastore({ filename: 'db/db.db', autoload: true });
 
 db = {};
 db.users = new Datastore('db/users.db');
-db.users.loadDatabase();
+db.users.loadDatabase();*/
 
 app.set('port', process.env.PORT || 8080);
 
@@ -17,10 +17,10 @@ io.on('connection', function (socket) {
 
 	app.get('/yohook/', function(req, res){
 		var username = req.query.username;
-		var doc = { username: username, date: new Date()};
+		/*var doc = { username: username, date: new Date()};
 			db.users.insert(doc, function (err, newDoc) {  
 	  			console.log(newDoc);
-			});
+			});*/
 			socket.broadcast.emit('user', { username: username });
 		res.send('hello '+username);
 	});
