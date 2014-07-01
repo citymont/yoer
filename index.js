@@ -8,44 +8,44 @@ app.use(express.static(__dirname + '/'));
 
 var server = http.createServer(app);
 server.listen(port);
-//var WebSocketServer = require('ws').Server
 
-/*var Datastore = require('nedb')
+var Datastore = require('nedb')
   , db = new Datastore({ filename: 'db/db.db', autoload: true });
 
 db = {};
 db.users = new Datastore('db/users.db');
-db.users.loadDatabase();*/
+db.users.loadDatabase();
 
 console.log('http server listening on %d', port);
 
 var wss = new WebSocketServer({server: server});
 console.log('websocket server created');
-wss.on('connection', function(ws) {
-    var id = setInterval(function() {
-        ws.send(JSON.stringify(new Date()), function() {  });
-    }, 1000);
 
-    console.log('websocket connection open');
-
-    ws.on('close', function() {
-        console.log('websocket connection close');
-        clearInterval(id);
-    });
-});
-
+wss.broadcast = function(data) {
+    for (var i in this.clients)
+        this.clients[i].send(data);
+    console.log('broadcasted: %s', data);
+};
 
 	app.get('/yohook/', function(req, res){
 		var username = req.query.username;
-		/*var doc = { username: username, date: new Date()};
+		var doc = { username: username, date: new Date()};
 			db.users.insert(doc, function (err, newDoc) {  
 	  			console.log(newDoc);
-			});*/
-			//socket.broadcast.emit('user', { username: username });
-		res.send('hello '+username);
+			});
+			
+			wss.on('connection', function(ws) {
+
+			    wss.broadcast(JSON.stringify(username), function() {  });
+			    console.log(username + 'OK');
+		
+			});
+		res.sendfile(__dirname + '/index.html');
 	});
 
 	app.get('/', function(req, res){
+		wss.on('connection', function(ws) {
+			});
 		 res.sendfile(__dirname + '/index.html');
 	});
 
