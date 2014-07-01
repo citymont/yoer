@@ -1,0 +1,10 @@
+{
+  "name": "yocinqg",
+  "version": "0.0.1",
+  "private": true,
+  "dependencies": {
+    "express": "latest",
+    "nedb": "^0.10.5",
+    "socket.io": "^1.0.6"
+  }
+}
