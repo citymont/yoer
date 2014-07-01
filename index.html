@@ -15,6 +15,13 @@
       ul li {
         line-height: 1.4;
       }
+      #yo {
+      	display:block;
+      	text-align:center;
+      	width:100%;
+      	margin-top:40px;
+      	display: none;
+      }
     </style>
 
     <script>
@@ -22,10 +29,14 @@
       var ws = new WebSocket(host);
       ws.onmessage = function (event) {
         console.log(JSON.parse(event.data));
+        document.getElementById('yo').style.display = "block";
+        setTimeout(function(){
+		   document.getElementById('yo').style.display = "none";
+		}, 4000);
       };
     </script>
   </head>
   <body>
-    
+    <div id="yo"><img src="http://33.media.tumblr.com/tumblr_lm1556l2R71qgbvzco1_500.gif"></div>
   </body>
 </html>

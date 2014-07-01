@@ -34,13 +34,10 @@ wss.broadcast = function(data) {
 	  			console.log(newDoc);
 			});
 			
-			wss.on('connection', function(ws) {
-
-			    wss.broadcast(JSON.stringify(username), function() {  });
-			    console.log(username + 'OK');
+		    wss.broadcast(JSON.stringify(username), function() {  });
+		    console.log(username + 'OK');
 		
-			});
-		res.sendfile(__dirname + '/index.html');
+		res.send('nice');
 	});
 
 	app.get('/', function(req, res){
