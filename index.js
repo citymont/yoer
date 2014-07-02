@@ -34,15 +34,13 @@ wss.broadcast = function(data) {
 	  			console.log(newDoc);
 			});
 			
-		    wss.broadcast(JSON.stringify(username), function() {  });
+		    wss.broadcast(JSON.stringify({username: username}), function() {  });
 		    console.log(username + 'OK');
 		
 		res.send('nice');
 	});
 
 	app.get('/', function(req, res){
-		wss.on('connection', function(ws) {
-			});
 		 res.sendfile(__dirname + '/index.html');
 	});
 
@@ -56,5 +54,15 @@ wss.broadcast = function(data) {
 		  console.log(numRemoved);
 		});
 	});
-	
+
+
+	wss.on('connection', function(ws) {
+			var id = setInterval(function() {
+        wss.broadcast(JSON.stringify({date : new Date()}), function() {  });
+    }, 3000);
+			});
+		wss.on('close', function() {
+        console.log('websocket connection close');
+        clearInterval(id);
+    });
 
