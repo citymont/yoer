@@ -19,28 +19,63 @@
       	display:block;
       	text-align:center;
       	width:100%;
-      	margin-top:40px;
-      	display: none;
+
+      }
+      #yo img { 
+        position:absolute; -webkit-transition:opacity 500ms ease;
+        opacity:1;
+      }
+      #preload img {
+        display:none;
+      }
+      #yo img.end{
+       opacity:0;
       }
     </style>
 
     <script>
       var host = location.origin.replace(/^http/, 'ws')
       var ws = new WebSocket(host);
+
+      var imgs = ["yo_skrill_drop_it_hard-10254.gif","tumblr_lm1556l2R71qgbvzco1_500.gif", "tumblr_mytl707ngI1qbvx0xo1_500.gif"]
+      var imgActive = 0;
+
       ws.onmessage = function (event) {
         console.log(JSON.parse(event.data));
         var data = JSON.parse(event.data);
+
         if(data.username) {
-           document.getElementById('yo').style.display = "block";
-        setTimeout(function(){
-       document.getElementById('yo').style.display = "none";
-    }, 4000);
+
+          var imgval = imgs[imgActive];
+
+          var rX = Math.floor(Math.random() * (400 - 0 + 1)) + 0;
+          var rY = Math.floor(Math.random() * (400 - 0 + 1)) + 0;
+          var a = document.createElement('img');
+              a.src=imgval;
+              a.style.top = rX+'px';
+              a.style.left = rY+'px';
+
+          document.getElementById('yo').appendChild(a);
+          setTimeout(function(){
+             a.classList.toggle('end');
+          }, 12000);
+        
+          imgActive++;
+          
+          if(imgActive == 3 ){
+            imgActive = 0;
+          }
         }
        
       };
     </script>
   </head>
   <body>
-    <div id="yo"><img src="tumblr_lm1556l2R71qgbvzco1_500.gif"></div>
+    <div id="yo"></div>
+    <div id="preload">
+      <img src="tumblr_lm1556l2R71qgbvzco1_500.gif">
+      <img src="tumblr_mytl707ngI1qbvx0xo1_500.gif">
+      <img src="yo_skrill_drop_it_hard-10254.gif">
+  </div>
   </body>
 </html>

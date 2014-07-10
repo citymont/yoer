@@ -61,7 +61,7 @@ wss.broadcast = function(data) {
         wss.broadcast(JSON.stringify({date : new Date()}), function() {  });
     }, 3000);
 			});
-		wss.on('close', function() {
+	wss.on('close', function() {
         console.log('websocket connection close');
         clearInterval(id);
     });
