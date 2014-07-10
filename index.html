@@ -31,6 +31,23 @@
       #yo img.end{
        opacity:0;
       }
+      #user {
+        position: absolute;
+        z-index:-1;
+        top: 10px;
+        left: 10px;
+        font-size:180px;
+        color:yellow;
+        text-transform: uppercase;
+      }
+      #user div {
+
+        opacity:1;
+      }
+      #user div.end {
+       height:0px;
+        opacity:0;
+      }
     </style>
 
     <script>
@@ -48,8 +65,8 @@
 
           var imgval = imgs[imgActive];
 
-          var rX = Math.floor(Math.random() * (400 - 0 + 1)) + 0;
-          var rY = Math.floor(Math.random() * (400 - 0 + 1)) + 0;
+          var rX = Math.floor(Math.random() * (500 - 0 + 1)) + 0;
+          var rY = Math.floor(Math.random() * (500 - 0 + 1)) + 0;
           var a = document.createElement('img');
               a.src=imgval;
               a.style.top = rX+'px';
@@ -65,12 +82,19 @@
           if(imgActive == 3 ){
             imgActive = 0;
           }
+          var n =document.createElement('div');
+          n.innerHTML=data.username;
+          document.getElementById('user').appendChild(n)
+          setTimeout(function(){
+             n.classList.toggle('end');
+          }, 12000);
         }
        
       };
     </script>
   </head>
   <body>
+    <div id="user"></div>
     <div id="yo"></div>
     <div id="preload">
       <img src="tumblr_lm1556l2R71qgbvzco1_500.gif">
